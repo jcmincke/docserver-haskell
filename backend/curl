@@ -1,0 +1,10 @@
+
+curl -X GET -H "Content-Type: application/json" \
+ -d '{"email":"email@gmail.com", "password":"abc"}' \
+ -c cookie.txt\
+ -v http://localhost:3001/login
+
+
+
+
+curl  http://localhost:3001/entries

@@ -1,0 +1,39 @@
+curl -X GET -H "Content-Type: application/json" \
+ -d '{"firstname":"abc", "name":"mincke", "email":"email@gmail.com", "password":"abc"}' \
+ -v http://localhost:3001/api/register
+
+
+curl -X GET -H "Content-Type: application/json" \
+ -d '{"email":"email@gmail.com", "password":"abc"}' \
+ -c cookie.txt\
+ -v http://localhost:3001/login
+
+curl -X GET -H "Content-Type: application/json" \
+ -d '{"email":"b", "password":"bs"}' \
+ -c cookie.txt\
+ -v http://localhost:3001/login
+
+curl -X GET -v http://localhost:3001/isloggedin
+
+curl -X GET -b cookie.txt -v http://localhost:3001/api/isloggedin
+
+
+curl -X POST -H "Content-Type: application/json"  -d '{"pseudo":"a",
+"role":"User", "email":"jeanchristophe.mincke@gmail.com", "password":"a"}' \
+-c cookie.txt \
+ -v http://localhost:3001/api/register
+
+curl -X POST -H "Content-Type: application/json"  -d '{"is_guest":false,
+"user_id":"jeanchristophe.mincke@gmail.com", "password":"a"}' \
+-c cookie.txt \
+ -v http://localhost:3001/api/login
+
+
+curl -X POST -H "Content-Type: application/json"  -d '{"is_guest":true,
+"user_id":"a", "password":""}' \
+-c cookie.txt \
+ -v http://localhost:3001/api/login
+
+ curl -X GET -b cookie.txt -v http://localhost:3001/api/loggedUser
+
+ curl -X GET -v http://localhost:3001/api/logout

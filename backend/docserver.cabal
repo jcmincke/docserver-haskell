@@ -1,0 +1,137 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 4efed14dad017f0f6753623449d642c1ebc42e7e702d30b8df9082fb9cb03aba
+
+name:           docserver
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/vox#readme>
+homepage:       https://github.com/githubuser/vox#readme
+bug-reports:    https://github.com/githubuser/vox/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2019 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/vox
+
+library
+  exposed-modules:
+      Server
+--      DocServer.Server
+  other-modules:
+      Paths_docserver
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , aeson
+    , attoparsec
+    , base-compat
+    , blaze-markup
+    , blaze-html
+    , bytestring
+    , cereal
+    , clientsession
+    , containers
+    , cookie
+    , cryptonite
+    , data-default
+    , directory
+    , exceptions
+    , filepath
+    , ghc
+    , HTTP
+    , http-client
+    , http-media
+    , inflections
+    , lucid
+    , memory
+    , monad-control
+    , monad-logger
+    , mtl
+    , postgresql-query
+    , postgresql-simple
+    , regex-posix
+    , resource-pool
+    , servant
+    , servant-auth
+    , servant-auth-server
+    , servant-client
+    , servant-server
+    , string-conversions
+    , text
+    , transformers
+    , time
+    , wai
+    , warp
+  default-language: Haskell2010
+  ghc-options: -Wall
+
+
+executable docserver-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_docserver
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  build-depends:
+      base >=4.7 && <5
+    , docserver
+    , wai
+    , warp
+    , aeson
+    , attoparsec
+    , base-compat
+    , blaze-markup
+    , blaze-html
+    , bytestring
+    , clientsession
+    , containers
+    , cookie
+    , directory
+    , ghc
+    , HTTP
+    , http-client
+    , http-media
+    , lucid
+    , mtl
+    , postgresql-query
+    , postgresql-simple
+    , resource-pool
+    , servant
+    , servant-auth
+--    , servant-auth-cookie
+    , servant-auth-server
+    , servant-server
+    , string-conversions
+    , text
+    , time
+    , wai
+    , warp
+    , warp-tls
+  default-language: Haskell2010
+
+test-suite docserver-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_vox
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , vox
+  default-language: Haskell2010
