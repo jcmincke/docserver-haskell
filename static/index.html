@@ -41,6 +41,13 @@
     node: document.getElementById('elm')
   });
 
+  app.ports.openDoc.subscribe(function (url) {
+    console.log("Opening: " + url)
+    window.open(url)
+  });
+
+
+
 
   </script>
 

@@ -8,3 +8,13 @@ curl -X GET -H "Content-Type: application/json" \
 
 
 curl  http://localhost:3001/entries
+
+
+
+curl -i -X POST localhost:3001/load \
+  -H "Content-Type: application/octet-stream" \
+  --data-binary "@./test.txt"
+
+curl -i -X POST localhost:3001/load \
+  -H "Content-Type: text/plain;charset=utf-8" \
+  --data-binary "@./test.txt"

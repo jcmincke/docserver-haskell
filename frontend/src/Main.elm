@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Browser
 
@@ -10,9 +10,13 @@ import Bootstrap.Grid.Col as BGC
 import Bootstrap.Grid as BG
 import Bootstrap.Utilities.Border as BGB
 
+import Html exposing (..)
+
 import Maybe exposing (Maybe (..), withDefault)
 import Debug exposing (log, toString)
-import Html exposing (Html, button, div, text, Attribute, input)
+import Html.Attributes exposing (..)
+
+--import Html exposing (Html, button, div, text, Attribute, input)
 import Html.Events exposing (onClick, onCheck)
 import Html exposing (text, h1, div, video, source, audio)
 import Html.Attributes exposing (width, height, media, attribute,
@@ -26,7 +30,19 @@ import List as L
 import Browser.Navigation as BN
 import Html exposing (Html, text, pre)
 
-import Studio as S
+import Bootstrap.Button as BB
+import Bootstrap.ButtonGroup as BBG
+import Bootstrap.Utilities.Spacing as BUS
+import Bootstrap.Grid.Row as BGR
+import Bootstrap.Grid.Col as BGC
+import Bootstrap.Grid as BG
+import Bootstrap.Utilities.Border as BUB
+import Bootstrap.Form as BF
+import Bootstrap.Pagination.Item as BPI
+import Bootstrap.Form.InputGroup as BFIG
+import Bootstrap.Form.Input as BFI
+import Bootstrap.Form.Checkbox as BCB
+import Bootstrap.ListGroup as BLG
 
 import Api.Endpoint
 import Api
@@ -92,7 +108,9 @@ update msg model =
   GotEntities (Err _) ->  ( model, Cmd.none )
   SelectPackage n -> ({model | package = Just n}, Cmd.none)
   SelectVersion v -> ({model | version = Just v}, Cmd.none)
-  GoToDoc n v -> ( model, BN.load ("docs/" ++ n ++ "-" ++ v ++ "/html/index.html" ))
+  GoToDoc n v -> ( model, openDoc ("docs/" ++ n ++ "-" ++ v ++ "/html/index.html" ))
+--  GoToDoc n v -> ( model, BN.load ("docs/" ++ n ++ "-" ++ v ++ "/html/index.html" ))
+
 
 
 
@@ -102,31 +120,95 @@ subscriptions model = Sub.none
 
 view : Model -> Html Msg
 view model =
-  div []
-  ( --button [onClick GoToDoc] [text "Click me"]
-  viewPackageNames model
-  ++ viewPackageVersions model
-  )
+  let headerHtml = viewHeader model
+      packageHtml = viewPackageNames model
+      versionHtml = viewPackageVersions model
+      contHtml = BG.container []
+        [ BG.row []
+          [ BG.col [BGC.lg1] []
+          , BG.col [BGC.lg4] [packageHtml]
+          , BG.col [BGC.lg1] []
+          , BG.col [BGC.lg4] [versionHtml]
+          , BG.col [BGC.lg1] []
+          ]
+        ]
+  in  div []
+      [ headerHtml
+      , contHtml
+      ]
 
 
-viewPackageNames : Model -> List (Html Msg)
+
+{-
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span>List Group Item 1</span></li>
+                        <li class="list-group-item"><span>List Group Item 2</span></li>
+                        <li class="list-group-item"><span>List Group Item 3</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span>List Group Item 1</span></li>
+                        <li class="list-group-item"><span>List Group Item 2</span></li>
+                        <li class="list-group-item"><span>List Group Item 3</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+  -}
+
+viewPackageNames : Model -> Html Msg
 viewPackageNames model =
-  let go key acc = Html.li [onClick (SelectPackage key)] [text key] :: acc
-  in L.foldr go [] (D.keys model.entries)
+  let go key acc = BLG.li [BLG.attrs [onClick (SelectPackage key)]] [text key] :: acc
+      eHtml =  L.foldr go [] (D.keys model.entries)
+  in  BLG.ul eHtml
 
 
-viewPackageVersions : Model -> List (Html Msg)
+viewPackageVersions : Model -> Html Msg
 viewPackageVersions model =
   case model.package of
   Just n ->
-    let go v acc = Html.li [onClick (GoToDoc n v)] [text v] :: acc
-    in L.foldr go [] (withDefault [] (D.get n model.entries))
-  Nothing -> []
+    let go v acc = BLG.li [BLG.attrs [onClick (GoToDoc n v)]] [text v] :: acc
+        eHtml =  L.foldr go [] (withDefault [] (D.get n model.entries))
+    in BLG.ul eHtml
+  Nothing -> BLG.ul []
 
 
+viewHeader model =
+  div [class "d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-5 bg-white border-bottom shadow-sm"]
+  [ h3 [class "my-0 mr-md-auto font-weight-normal"]
+    [ text "DocServer"]
 
+  ]
 
+{-
 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span>List Group Item 1</span></li>
+                        <li class="list-group-item"><span>List Group Item 2</span></li>
+                        <li class="list-group-item"><span>List Group Item 3</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span>List Group Item 1</span></li>
+                        <li class="list-group-item"><span>List Group Item 2</span></li>
+                        <li class="list-group-item"><span>List Group Item 3</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+-}
+
+port openDoc : String -> Cmd msg
 
 
 
