@@ -1,0 +1,508 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API documentation &mdash; jazzml 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="A first example" href="guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> jazzml
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide.html">A first example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#decoding-nested-types">Decoding nested types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#decoding-pimitive-types">Decoding pimitive types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#decoding-a-list">Decoding a list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#decoding-an-optional-field">Decoding an optional field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#choosing-between-various-representations">Choosing between various representations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#other-interesting-built-in-decoders">Other interesting built-in Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#decoding-recursive-data-structures">Decoding recursive data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#dynamic-selection-of-decoders">Dynamic selection of Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide.html#another-way-to-compose-decoders">Another way to compose Decoders</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-jazzml">Decoder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jazzml">Built-in Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jazzml">Combining Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jazzml">Special Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jazzml">Parsing a yaml/json document</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jazzml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-documentation">
+<h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-jazzml">
+<span id="decoder-class"></span><h2>Decoder Class<a class="headerlink" href="#module-jazzml" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="jazzml.Decoder">
+<em class="property">class </em><code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Decoder</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.Decoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Decoder class that simply wraps a decoding function.</p>
+<dl class="method">
+<dt id="jazzml.Decoder.at">
+<code class="sig-name descname">at</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.Decoder.at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply <cite>self</cite> to a path and dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder to use to decode <cite>value</cite>.</p></li>
+<li><p><strong>path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The current path in the document.</p></li>
+<li><p><strong>value</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – The value to decode.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Status" title="jazzml.Status"><code class="xref py py-class docutils literal notranslate"><span class="pre">Status</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="jazzml.Decoder.then">
+<code class="sig-name descname">then</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.Decoder.then" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decoder that:</p>
+<ul class="simple">
+<li><p>Applies <cite>self</cite>, yielding a value <cite>v</cite>.</p></li>
+<li><p>Constructs a new Decoder by calling <cite>f(v)</cite>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>f</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[~a], <a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~b]]) – A function that takes a value and returns a new Decoder.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~b]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new Decoder.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-jazzml">
+<span id="built-in-decoders"></span><h2>Built-in Decoders<a class="headerlink" href="#module-jazzml" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="jazzml.Int">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Int</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.Int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a json/yaml integer into an int.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="jazzml.Bool">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Bool</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.Bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a json/yaml boolean into a bool.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="jazzml.Float">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Float</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a json/yaml float into a float.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="jazzml.Str">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Str</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.Str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a json/yaml string into a str.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="jazzml.Real">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">Real</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.Real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a json/yaml number into a float or an int.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jazzml">
+<span id="combining-decoders"></span><h2>Combining Decoders<a class="headerlink" href="#module-jazzml" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="jazzml.mapn">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">mapn</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">*decoders</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.mapn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Decoder that applies the given Decoders in sequence
+and then pass their results (<cite>v1</cite>, <cite>v2</cite>, …, <cite>vn</cite>) to the function <cite>f</cite>.
+The Decoder returns the results of <cite>f(v1, v2, …, vn)</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[…, ~a]) – A function with as many arguments as the number of Decoders.</p></li>
+<li><p><strong>*decoders</strong> – Decoders to be applied in sequence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.field">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">field</code><span class="sig-paren">(</span><em class="sig-param">field_name</em>, <em class="sig-param">decoder</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode specific field in a json/yaml object.</p>
+<p>Raise a ValueError if the field does not exist or the Decoder fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the expected field.</p></li>
+<li><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder to decode the field value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value returned by <cite>decoder</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.optional_field">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">optional_field</code><span class="sig-paren">(</span><em class="sig-param">field_name</em>, <em class="sig-param">decoder</em>, <em class="sig-param">default</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.optional_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a potentially missing field.</p>
+<p>The Decoder returns the given default value if the field does not exist.</p>
+<p>Raise a ValueError if the Decoder fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the expected field.</p></li>
+<li><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder to decode the field value.</p></li>
+<li><p><strong>default</strong> (<em>~a</em>) – The value to return if the field does not exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.List">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">List</code><span class="sig-paren">(</span><em class="sig-param">decoder</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a list of values into a python list.</p>
+<p>The given decoder is used to decode the elements of the list.</p>
+<p>Raise a ValueError if the Decoder fails on any element of the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder to decode the elements of the list .</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[~a]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.nullable">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">nullable</code><span class="sig-paren">(</span><em class="sig-param">decoder</em>, <em class="sig-param">default</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.nullable" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Decoder to decode a potentially null value.</p>
+<p>It look at the value to decode. If it is null,
+it returns the specified default value.</p>
+<p>Otherwise, the given Decoder is applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder to apply if the value to decode is not null.</p></li>
+<li><p><strong>default</strong> (<em>~a</em>) – The value returned if the value to decode is null.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jazzml">
+<span id="special-decoders"></span><h2>Special Decoders<a class="headerlink" href="#module-jazzml" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="jazzml.succeed">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">succeed</code><span class="sig-paren">(</span><em class="sig-param">v</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.succeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decoder that always succeeds and returns the given value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>~a</em>) – The value inconditionally returned by the Decoder.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.fail">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">fail</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decoder that always fails with a specific error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The error message.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.null">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">null</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a null value into the given value.</p>
+<p>Raise a ValueError if the value is not a null value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>~a</em>) – The value to return if the value to decode is null.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.lazy">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">lazy</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.lazy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decoder that lazily builds another Decoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>f</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]]) – A factory For the lazily built Decoder.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="data">
+<dt id="jazzml.noop">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">noop</code><em class="property"> = &lt;jazzml.Decoder object&gt;</em><a class="headerlink" href="#jazzml.noop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode that returns the value to decoder, unchanged.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-jazzml">
+<span id="parsing-a-yaml-json-document"></span><h2>Parsing a yaml/json document<a class="headerlink" href="#module-jazzml" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="jazzml.parse_yaml">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">parse_yaml</code><span class="sig-paren">(</span><em class="sig-param">doc</em>, <em class="sig-param">decoder</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.parse_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode the given yaml document with the given Decoder.</p>
+<p>Raises a ValueError if the Decoder fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Io</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – The document to decode.</p></li>
+<li><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder used to decode <cite>doc</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>~a</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value yielded by <cite>decoder</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="jazzml.parse_json">
+<code class="sig-prename descclassname">jazzml.</code><code class="sig-name descname">parse_json</code><span class="sig-paren">(</span><em class="sig-param">str</em>, <em class="sig-param">decoder</em><span class="sig-paren">)</span><a class="headerlink" href="#jazzml.parse_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode the given json document with the given Decoder.</p>
+<p>Raise a ValueError if the Decoder fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc</strong> – The document to decode (string).</p></li>
+<li><p><strong>decoder</strong> (<a class="reference internal" href="template.html#jazzml.Decoder" title="jazzml.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>[~a]) – The Decoder used to decode <cite>doc</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>~a</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value yielded by <cite>decoder</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="guide.html" class="btn btn-neutral float-left" title="A first example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jean-Christophe Mincke
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

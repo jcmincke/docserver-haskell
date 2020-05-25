@@ -1,0 +1,18 @@
+====================
+this is a
+====================
+
+.. code:: python
+
+    class Node(object):
+        def __init__(self, label, value):
+            self.label = label
+            self.value = tuple(value)
+
+        def __repr__(self):
+            return "Node(%r, %r)" % (self.label, self.value)
+
+        def sorts_before(self, other):
+            if len(self.value) >= len(other.value):
+                return False
+            return other.value[:len(self.value)] == self.value

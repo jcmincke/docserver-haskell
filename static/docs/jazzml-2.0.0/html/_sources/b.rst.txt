@@ -1,0 +1,12 @@
+====================
+this is b
+====================
+
+
+:math:`\alpha > \beta`
+
+.. doctest::
+
+    >>> import math
+    >>> print math.sqrt(2.)
+    1.41421356237

@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>A first example &mdash; jazzml 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="prev" title="Welcome to jazzml!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> jazzml
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A first example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#decoding-nested-types">Decoding nested types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#decoding-pimitive-types">Decoding pimitive types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#decoding-a-list">Decoding a list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#decoding-an-optional-field">Decoding an optional field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#choosing-between-various-representations">Choosing between various representations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#other-interesting-built-in-decoders">Other interesting built-in Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#decoding-recursive-data-structures">Decoding recursive data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#dynamic-selection-of-decoders">Dynamic selection of Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#another-way-to-compose-decoders">Another way to compose Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jazzml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>A first example</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/guide.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="a-first-example">
+<h1>A first example<a class="headerlink" href="#a-first-example" title="Permalink to this headline">¶</a></h1>
+<p>Let’s start with a simple point defined by 2 coordinates: <cite>x</cite> and <cite>y</cite>.</p>
+<p>A python <cite>Point</cite> type and its possible representation in yaml are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">mkPoint</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Point&#39;</span><span class="p">,</span> <span class="s1">&#39;x y&#39;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    x: 2</span>
+<span class="s2">    y: 5</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The first step is to define a Decoder for the <cite>Point</cite> type. A Decoder is a python type which knows two things:</p>
+<ul class="simple">
+<li><p>the expected structure of the yaml document.</p></li>
+<li><p>how to create a <cite>Point</cite>.</p></li>
+</ul>
+<p>Once we have a Decoder, we can then use <cite>parse_yaml()</cite> to apply that Decoder to the yaml document and return the value produced by the Decoder.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jazzml</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">point_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkPoint</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">))</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">point_decoder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">field('x',</span> <span class="pre">Int)</span></code> looks for a field named <cite>x</cite>. If the field exists, it checks the type of its value. If the value is an integer, it returns it.</p>
+<p>If the field does not exist or its value is not an integer, the parsing fails.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mapn</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">decoder_1</span><span class="p">,</span> <span class="n">decoder_2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">decoder_n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">mapn()</span></code> function creates a new Decoder which does 3 things:</p>
+<ul class="simple">
+<li><p>it sequentially applies Decoders 1 to n and collects the value each Decoder produces.</p></li>
+<li><p>it then calls the function <code class="docutils literal notranslate"><span class="pre">func</span></code> with the Decoder values as arguments.</p></li>
+<li><p>it returns the value returned by the call to <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p></li>
+</ul>
+<p>So, the type of the value returned by the <code class="docutils literal notranslate"><span class="pre">mapn(func,</span> <span class="pre">...)</span></code> Decoder is the return type of <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p>
+<p>If any given Decoder fails, the the <code class="docutils literal notranslate"><span class="pre">mapn(func,</span> <span class="pre">...)</span></code> Decoder fails as well.</p>
+<p>So looking again at our <cite>Point</cite> Decoder:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">point_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkPoint</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It looks into the yaml document for an integer field named <cite>x</cite>, then for an integer field named <cite>y</cite>. If these fields exist and both contain integers, <code class="docutils literal notranslate"><span class="pre">point_decoder</span></code> calls the constructor <code class="docutils literal notranslate"><span class="pre">mkPoint</span></code>.</p>
+<p>It is important to note that the function <code class="docutils literal notranslate"><span class="pre">func</span></code> passed given to <code class="docutils literal notranslate"><span class="pre">mapn()</span></code> does not have to be a constructor. It can be any function which takes as many arguments as the number of Decoders arguments.</p>
+<p>For instance, we could write a Decoder that sums the fields <cite>x</cite> and <cite>y</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sum_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">))</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">sum_decoder</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span>  <span class="c1"># True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decoding-nested-types">
+<h1>Decoding nested types<a class="headerlink" href="#decoding-nested-types" title="Permalink to this headline">¶</a></h1>
+<p>Suppose we want to decode a value representing a circle. A circle is defined by a point (its centre) and a radius.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">mkPoint</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Point&#39;</span><span class="p">,</span> <span class="s1">&#39;x y&#39;</span><span class="p">)</span>
+
+<span class="n">mkCircle</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Circle&#39;</span><span class="p">,</span> <span class="s1">&#39;centre radius&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A yaml representation of a circle could be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    centre:</span>
+<span class="s2">        x: 2</span>
+<span class="s2">        y: 5</span>
+<span class="s2">    radius: 10</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>And a <cite>Circle</cite> Decoder would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circle_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkCircle</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s2">&quot;centre&quot;</span><span class="p">,</span> <span class="n">point_decoder</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">,</span> <span class="n">Int</span><span class="p">))</span>
+
+<span class="n">circle</span> <span class="o">=</span> <span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">circle_decoder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">circle_decoder</span></code> follows the same logic as our previous <code class="docutils literal notranslate"><span class="pre">point_decoder</span></code>.</p>
+<p>It looks for a field named <cite>centre</cite> and tries to decode its value using <code class="docutils literal notranslate"><span class="pre">point_decoder</span></code>.
+Thus, it expects the field <cite>centre</cite> to contain a composite value of type <cite>Point</cite>.</p>
+<p>This example shows how Decoders can be composed into much larger and arbitrarily complex Decoders.</p>
+</div>
+<div class="section" id="decoding-pimitive-types">
+<h1>Decoding pimitive types<a class="headerlink" href="#decoding-pimitive-types" title="Permalink to this headline">¶</a></h1>
+<p><cite>jazzml</cite> define built-in Decoders for primitive types: <cite>Int</cite>, <cite>Float</cite>, <cite>String</cite>, <cite>Bool</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;1.2&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.2</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="n">Bool</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;Hello World&#39;</span><span class="p">,</span> <span class="n">Str</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Hello World&#39;</span>
+</pre></div>
+</div>
+<p>In addition, the built-in Decoder <cite>Real</cite> decodes a value that is either a integer or a float.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>      <span class="c1"># int python type</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;1.2&#39;</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.2</span>  <span class="c1"># float python type</span>
+</pre></div>
+</div>
+<p>The last built-in Decoder is <cite>null()</cite> which decodes a yaml null value into a specified
+python value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">null</span><span class="p">())</span> <span class="o">==</span> <span class="bp">None</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">null</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span> <span class="o">==</span> <span class="mi">42</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">null</span><span class="p">(</span><span class="bp">True</span><span class="p">)))</span> <span class="o">==</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decoding-a-list">
+<h1>Decoding a list<a class="headerlink" href="#decoding-a-list" title="Permalink to this headline">¶</a></h1>
+<p>If the yaml document contains a list of values, we can build a corresponding list Decoder:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">points_decoder</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">point_decoder</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    - x: 1</span>
+<span class="s2">      y: 2</span>
+<span class="s2">    - x: 10</span>
+<span class="s2">      y: 20</span>
+<span class="s2">  &quot;&quot;&quot;</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">points_decoder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decoding-an-optional-field">
+<h1>Decoding an optional field<a class="headerlink" href="#decoding-an-optional-field" title="Permalink to this headline">¶</a></h1>
+<p>Let’s consider a colored point having ef 3 attributes <cite>x</cite>, <cite>y</cite> and <cite>color</cite>.</p>
+<p>Attributes <cite>x</cite> and <cite>y</cite> are mandatory but <cite>color</cite> is optional. To decode a potentially missig field <code class="docutils literal notranslate"><span class="pre">optional_field()</span></code> can be used. It creates a field Decoder which, in case the field is absent from the document, wil set it to <cite>None</cite> or to a default value defined by the user.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="kn">from</span> <span class="nn">jazzml</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">mkColoredPoint</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ColoredPoint&#39;</span><span class="p">,</span> <span class="s1">&#39;x y color&#39;</span><span class="p">)</span>
+
+<span class="n">doc_color</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">     x: 2</span>
+<span class="s2">     y: 5</span>
+<span class="s2">     color: &#39;red&#39;</span>
+<span class="s2">     &quot;&quot;&quot;</span>
+
+<span class="n">doc_no_color</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">     x: 2</span>
+<span class="s2">     y: 5</span>
+<span class="s2">     &quot;&quot;&quot;</span>
+
+<span class="n">colored_point_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkColoredPoint</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span>  \
+  <span class="n">optional_field</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">Str</span><span class="p">))</span>
+
+<span class="n">colored_point</span> <span class="o">=</span> <span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc_color</span><span class="p">,</span> <span class="n">colored_point_decoder</span><span class="p">)</span>
+<span class="n">non_colored_point</span> <span class="o">=</span> <span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc_no_color</span><span class="p">,</span> <span class="n">colored_point_decoder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to specify a default value in case the field is missing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">colored_point_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkColoredPoint</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span>  \
+  <span class="n">optional_field</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="choosing-between-various-representations">
+<h1>Choosing between various representations<a class="headerlink" href="#choosing-between-various-representations" title="Permalink to this headline">¶</a></h1>
+<p>Choosing between various representation is necessary in presence of hierarchies.</p>
+<p>For instance, a Shape hierarchy with Circles and Polygon as subclasses:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Shape</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="n">centre</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
+
+<span class="k">class</span> <span class="nc">Polygon</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">vertices</span>
+
+<span class="n">circle_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">Circle</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;centre&#39;</span><span class="p">,</span> <span class="n">point_decoder</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;radius&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">))</span>
+
+<span class="n">polygon_decoder</span> <span class="o">=</span> <span class="n">mapn</span><span class="p">(</span><span class="n">Polygon</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;points&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">(</span><span class="n">point_decoder</span><span class="p">)))</span>
+
+<span class="n">doc_circle</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    centre:</span>
+<span class="s2">        x: 1</span>
+<span class="s2">        y: 2</span>
+<span class="s2">    radius: 20</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="n">doc_polygon</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  points:</span>
+<span class="s2">    - x: 1</span>
+<span class="s2">      y: 2</span>
+<span class="s2">    - x: 3</span>
+<span class="s2">      y: 6</span>
+<span class="s2">    - x: 1</span>
+<span class="s2">      y: 3</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="n">shape_decoder</span> <span class="o">=</span> <span class="n">one_of</span><span class="p">([</span><span class="n">circle_decoder</span><span class="p">,</span> <span class="n">polygon_decoder</span><span class="p">])</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc_circle</span><span class="p">,</span> <span class="n">shape_decoder</span><span class="p">)</span> <span class="c1"># a Circle</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc_polygon</span><span class="p">,</span> <span class="n">shape_decoder</span><span class="p">)</span> <span class="c1"># a Polygon</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">one_of([decoder_1,</span> <span class="pre">decoder_2,</span> <span class="pre">...,</span> <span class="pre">decoder_n])</span></code> creates a Decoder that sequentially applies each Decoder until one of them succeeds.</p>
+<p>If all Decoders fail, then the decoding fails.</p>
+<p>Decoding a list of Shapes is straightforward:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">doc_shapes</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  - centre:</span>
+<span class="s1">       x: 1</span>
+<span class="s1">       y: 2</span>
+<span class="s1">    radius: 20</span>
+
+<span class="s1">  - points:</span>
+<span class="s1">        - x: 1</span>
+<span class="s1">          y: 2</span>
+<span class="s1">        - x: 3</span>
+<span class="s1">          y: 6</span>
+<span class="s1">        - x: 1</span>
+<span class="s1">          y: 3</span>
+<span class="s1">  - centre:</span>
+<span class="s1">       x: 10</span>
+<span class="s1">       y: 22</span>
+<span class="s1">    radius: 20</span>
+<span class="s1">  - points:</span>
+<span class="s1">        - x: 0</span>
+<span class="s1">          y: -1</span>
+<span class="s1">        - x: 2</span>
+<span class="s1">          y: 7</span>
+<span class="s1">      &#39;&#39;&#39;</span>
+
+<span class="n">shapes_decoder</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">shape_decoder</span><span class="p">)</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc_shapes</span><span class="p">,</span> <span class="n">shapes_decoder</span><span class="p">)</span>  <span class="c1"># list of Shapes</span>
+</pre></div>
+</div>
+<p>The next example shows how we can decode an integer (if present) or return a specific value if a null is encountered.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">one_of</span><span class="p">([</span><span class="n">Int</span><span class="p">,</span> <span class="n">null</span><span class="p">(</span><span class="mi">42</span><span class="p">)]))</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a: 56&#39;</span><span class="p">,</span> <span class="n">decoder</span><span class="p">)</span> <span class="o">==</span> <span class="mi">56</span>
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a: &#39;</span><span class="p">,</span> <span class="n">decoder</span><span class="p">)</span> <span class="o">==</span> <span class="mi">42</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="other-interesting-built-in-decoders">
+<h1>Other interesting built-in Decoders<a class="headerlink" href="#other-interesting-built-in-decoders" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">succeed(v)</span></code> creates a Decoder which always succeeds and return the given value <cite>v</cite>, whatever the document.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">succeed</span><span class="p">(</span><span class="s2">&quot;your value&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    a:1</span>
+<span class="s2">    b: &quot;anything&quot;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">decoder</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;your value&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fail()</span></code> creates a Decoder which always fails.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">fail</span><span class="p">(</span><span class="s2">&quot;your error message&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    a:1</span>
+<span class="s2">    b: &quot;anything&quot;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">decoder</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;your value&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">nullable(decoder,</span> <span class="pre">default</span> <span class="pre">=</span> <span class="pre">value)</span></code> first looks at the document. If the document is not null, it applies the given Decoder otherwise it returns the specified defaut value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">Int</span><span class="p">))</span> <span class="o">==</span> <span class="bp">None</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="mi">42</span><span class="p">))</span> <span class="o">==</span> <span class="mi">42</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a: 6&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="mi">42</span><span class="p">)))</span> <span class="o">==</span> <span class="mi">6</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a: &#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="mi">42</span><span class="p">)))</span> <span class="o">==</span> <span class="mi">42</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="s1">&#39;a: true&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="mi">42</span><span class="p">)))</span>  <span class="c1"># error: Bad Type</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decoding-recursive-data-structures">
+<h1>Decoding recursive data structures<a class="headerlink" href="#decoding-recursive-data-structures" title="Permalink to this headline">¶</a></h1>
+<p>Creating a Decoder for recursive data structure can be done with <code class="docutils literal notranslate"><span class="pre">lazy()</span></code>.</p>
+<p>The argument to <code class="docutils literal notranslate"><span class="pre">lazy()</span></code> must be a function which takes no argument and returns a Decoder.</p>
+<p>Consider the following yaml document which represents a linked list. Each node of the list contains a value (head) and a representation of the next node (tail).</p>
+<p>The last item in the list is a node with <cite>None</cite> as tail.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    head: 1</span>
+<span class="s2">    tail:</span>
+<span class="s2">     head: 2</span>
+<span class="s2">     tail: null</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="n">mkCons</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Cons&#39;</span><span class="p">,</span> <span class="s1">&#39;head tail&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A first attempt to create a Decoder could be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">node_decoder</span> <span class="o">=</span> <span class="k">return</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkCons</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;tail&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">node_decoder</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>And python will complain that <code class="docutils literal notranslate"><span class="pre">list_decoder</span></code> is used before being defined.</p>
+<p>Another approach is to create a little factory for our Decoder and to pass it to <code class="docutils literal notranslate"><span class="pre">lazy()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mk_node_decoder</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">mapn</span><span class="p">(</span><span class="n">mkCons</span><span class="p">,</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;tail&#39;</span><span class="p">,</span> <span class="n">nullable</span><span class="p">(</span><span class="n">lazy</span><span class="p">(</span><span class="n">mk_node_decoder</span><span class="p">))))</span>
+
+<span class="n">node_decoder</span> <span class="o">=</span> <span class="n">mk_node_decoder</span><span class="p">()</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">node_decoder</span><span class="p">)</span> <span class="c1"># Cons(h=1, t=Cons(h=2, t=None))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynamic-selection-of-decoders">
+<h1>Dynamic selection of Decoders<a class="headerlink" href="#dynamic-selection-of-decoders" title="Permalink to this headline">¶</a></h1>
+<p>In some cases, it might be useful to dynamically select the next Decoder to apply based on an already decoded value.</p>
+<p>For that, you can use the <code class="docutils literal notranslate"><span class="pre">then()</span></code> method.</p>
+<p>If we have a document which contains versioned data, a possible solution to decode it is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    - version: 1</span>
+<span class="s2">      a: 6</span>
+<span class="s2">    - version: 2</span>
+<span class="s2">      b: &quot;Good morning&quot;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">mkVersionedDecoder</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">field</span><span class="p">(</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">Str</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fail</span><span class="p">(</span><span class="s2">&quot;Bad version&quot;</span><span class="p">)</span>
+
+
+<span class="n">decoder</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span><span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">mkVersionedDecoder</span><span class="p">)</span>
+
+<span class="n">parse_yaml</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">List</span><span class="p">(</span><span class="n">decoder</span><span class="p">))</span> <span class="o">==</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Good morning&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="another-way-to-compose-decoders">
+<h1>Another way to compose Decoders<a class="headerlink" href="#another-way-to-compose-decoders" title="Permalink to this headline">¶</a></h1>
+<p>For those who find <cite>mapn()</cite> syntax too heavy, it can be replaced by two infix operators: <cite>*</cite> and <cite>&#64;</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from collections import namedtuple
+
+mkPoint = namedtuple(&#39;Point&#39;, &#39;x y&#39;)
+
+mkCircle = namedtuple(&#39;Circle&#39;, &#39;centre radius&#39;)
+
+doc = &quot;&quot;&quot;
+    centre:
+        x: 2
+        y: 5
+    radius: 10
+    &quot;&quot;&quot;
+
+point_decoder = succeed(mkPoint) * field(&#39;x&#39;, Int) @ field(&#39;y&#39;, Int)
+
+circle_decoder = succeed(mkCircle) * field(&quot;centre&quot;, point_decoder) @ field(&quot;radius&quot;, Int)
+
+circle = parse_yaml(doc, circle_decoder)
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.html" class="btn btn-neutral float-right" title="API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to jazzml!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Jean-Christophe Mincke
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
