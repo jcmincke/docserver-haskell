@@ -31,7 +31,6 @@ import Data.Aeson as A
 --import Control.Monad.IO.Class (liftIO, MonadIO)
 
 import Data.Pool
-import Database.PostgreSQL.Simple (Connection)
 
 import Network.Wai
 

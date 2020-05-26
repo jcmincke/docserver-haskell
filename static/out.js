@@ -6172,7 +6172,7 @@ var $author$project$Main$update = F2(
 				var v = msg.b;
 				return _Utils_Tuple2(
 					model,
-					$author$project$Main$openDoc('docs/' + (n + ('-' + (v + '/html/index.html')))));
+					$author$project$Main$openDoc('docs/' + (n + ('-' + (v + '/index.html')))));
 		}
 	});
 var $rundis$elm_bootstrap$Bootstrap$Grid$Column = function (a) {

@@ -108,7 +108,7 @@ update msg model =
   GotEntities (Err _) ->  ( model, Cmd.none )
   SelectPackage n -> ({model | package = Just n}, Cmd.none)
   SelectVersion v -> ({model | version = Just v}, Cmd.none)
-  GoToDoc n v -> ( model, openDoc ("docs/" ++ n ++ "-" ++ v ++ "/html/index.html" ))
+  GoToDoc n v -> ( model, openDoc ("docs/" ++ n ++ "-" ++ v ++ "/index.html" ))
 --  GoToDoc n v -> ( model, BN.load ("docs/" ++ n ++ "-" ++ v ++ "/html/index.html" ))
 
 

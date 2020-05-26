@@ -60,8 +60,6 @@ library
     , monad-control
     , monad-logger
     , mtl
-    , postgresql-query
-    , postgresql-simple
     , regex-posix
     , resource-pool
     , servant
@@ -107,12 +105,9 @@ executable docserver-exe
     , http-media
     , lucid
     , mtl
-    , postgresql-query
-    , postgresql-simple
     , resource-pool
     , servant
     , servant-auth
---    , servant-auth-cookie
     , servant-auth-server
     , servant-server
     , string-conversions
