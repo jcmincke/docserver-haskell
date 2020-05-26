@@ -5,13 +5,14 @@ import Network.Wai.Handler.Warp
 
 import Server (app)
 
-
+import System.Environment (getArgs)
 import Web.ClientSession
 
 
 
 main :: IO ()
 main = do
-  run 3001 (app "./static/docs")
+  [path_docs] <- getArgs
+  run 3001 (app path_docs)
 
 
