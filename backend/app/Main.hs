@@ -12,7 +12,13 @@ import Web.ClientSession
 
 main :: IO ()
 main = do
-  [path_docs] <- getArgs
-  run 3001 (app path_docs)
+  args <- getArgs
+  let [port, path_docs] =
+        case args of
+          [port] -> [port, "./static/docs"]
+          [_, _] -> args
+  putStrLn path_docs
+  putStrLn port
+  run (read port::Int) (app path_docs)
 
 
